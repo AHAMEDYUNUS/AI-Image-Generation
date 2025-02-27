@@ -7,7 +7,7 @@ import axios from 'axios'
 
 const Login = () => {
   const [state, setState] = useState('Login')
-  const {setShowLogin, backendUrl, setToken, setUser} = useContext(AppContext);
+  const {setShowLogin, setToken, setUser} = useContext(AppContext);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -18,9 +18,8 @@ const Login = () => {
     try{
       let response;
       if(state === 'Login'){
-        const {data} = await axios.post(backendUrl + '/api/user/login', {email, password})
-        //response = await axios.post(`${backendUrl}/api/user/login`, { email, password });
-        //const data = response.data;
+        //const {data} = await axios.post(backendUrl+'/api/user/login`, {email, password})
+        const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/login`, {email, password})
         console.log(data);
 
         if(data.success){
@@ -32,10 +31,8 @@ const Login = () => {
               toast.error(data.message);
             }
     } else{
-          const {data} = await axios.post(backendUrl + '/api/user/register', {name, email, password})
-          //response = await axios.post(`${backendUrl}/api/user/register`, { name, email, password });
-          //const data = response.data;
-
+          const {data} = await axios.post(`${import.meta.VITE_BACKEND_URL}/api/user/register`, {name, email, password})
+         
 
           if(data.success){
             setToken(data.token);
