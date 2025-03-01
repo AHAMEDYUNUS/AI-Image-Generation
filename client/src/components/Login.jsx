@@ -25,19 +25,19 @@ const Login = () => {
         if(data.success){
             setToken(data.token);
             setUser(data.user);
-            localStorage.getItem('token', data.token);
+            localStorage.setItem('token', data.token);
             setShowLogin(false);
           } else{
               toast.error(data.message);
             }
     } else{
-          const {data} = await axios.post(`${import.meta.VITE_BACKEND_URL}/api/user/register`, {name, email, password})
+          const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/register`, {name, email, password})
          
 
           if(data.success){
             setToken(data.token);
             setUser(data.user);
-            localStorage.getItem('token', data.token);
+            localStorage.setItem('token', data.token);
             setShowLogin(false);
             } else{
                 toast.error(data.message);
