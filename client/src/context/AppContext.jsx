@@ -30,7 +30,7 @@ import { useNavigate } from "react-router-dom";
                 toast.error(error.message);
             }
         }
-
+        //load credit balance
         useEffect(()=>{
             if(token){
                 loadCreditsData();
@@ -38,6 +38,35 @@ import { useNavigate } from "react-router-dom";
         }, [token])
 
 
+        const generateImage = async (prompt) => {
+            try {
+                const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/image/generate-image`, 
+                    {prompt}, {headers: {token}})
+
+                if (data.success) {
+                    loadCreditsData();
+                    return data.resultImage;
+                } else {
+                    if (data.creditBalance === 0){
+                        navigate("/buy")
+                    }
+                    toast.error(error.message)
+                    loadCreditsData();
+                    
+                    
+                }    
+            } catch (error) {
+                if (data.creditBalance === 0){
+                    toast.error("Insufficient Credits")
+                    navigate("/buy")
+                }
+                console.log(error);
+                toast.error(error.message)
+            }
+        }
+
+
+        //Logout and redirect to home page
         const logout = ()=>{
             localStorage.removeItem('token');
             setToken(null);
@@ -47,7 +76,7 @@ import { useNavigate } from "react-router-dom";
 
 
         const value = {
-            user,setUser, showLogin, setShowLogin, backendUrl, token, setToken, credit, setCredit ,loadCreditsData, logout
+            user,setUser, showLogin, setShowLogin, backendUrl, token, setToken, credit, setCredit ,loadCreditsData, logout, generateImage
         }
         return(
             <AppContext.Provider value={value}>

@@ -24,13 +24,14 @@ export const generateImage = async (req, res) => {
             formData, {
                 headers: {
                     'x-api-key': process.env.CLIPDROP_API,
-                    responseType: 'arraybuffer',
+                    ...formData.getHeaders(),
                   },
+                  responseType: 'arraybuffer',
             })
 
         
-        const base64Image = Buffer.from(data, 'binary').toString('base64')
-        const resultImage = `data:image/png:base64,${base64Image}`
+        const base64Image = Buffer.from(data).toString('base64')
+        const resultImage = `data:image/png;base64,${base64Image}`;
 
         await userModel.findByIdAndUpdate(user._id, {creditBalance: user.creditBalance - 1} )
 
