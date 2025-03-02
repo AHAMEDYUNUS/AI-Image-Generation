@@ -1,6 +1,7 @@
     import axios from "axios";
 import { createContext, useEffect, useState} from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
     export const AppContext = createContext(null)
 
@@ -8,6 +9,7 @@ import { toast } from "react-toastify";
         const [user, setUser] = useState(null);
         const [showLogin, setShowLogin] = useState(false);
         const [token, setToken] = useState(localStorage.getItem('token'));
+        const navigate = useNavigate();
 
         const [credit, setCredit] = useState();
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -16,9 +18,9 @@ import { toast } from "react-toastify";
             try {
                 const {data} = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/credits`, {headers: {token}})
 
-                if(data.success){
-                    setCredit(data.credit)
-                    setUser(data.user);
+                if(data.success){                   
+                    setCredit(data.credits)
+                    setUser(data.user)
                 } else{
                     toast.error(data.message);
                 }
@@ -40,6 +42,7 @@ import { toast } from "react-toastify";
             localStorage.removeItem('token');
             setToken(null);
             setUser(null);
+            navigate("/");
         }
 
 
