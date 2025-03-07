@@ -12,7 +12,12 @@ const PORT = process.env.PORT || 4000
 const app = express()
 
 app.use(express.json())
-app.use(cors())
+app.use(cors(
+    {
+        origin: 'https://ai-image-generation-31b6.onrender.com',
+        credentials: true
+    }
+))
 dotenv.config()
 await connectDB()
 
