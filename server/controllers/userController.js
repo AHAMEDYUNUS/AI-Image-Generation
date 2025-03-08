@@ -99,7 +99,7 @@ const paymentRazorpay = async (req, res) => {
             case 'Basic':
                 plan= 'Basic';
                 credits= 100;
-                amount= 1;               
+                amount= 10;               
                 break;
 
             case 'Advanced':
